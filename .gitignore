@@ -11,3 +11,6 @@ wheels/
  
 # Database metadata
 db_meta.json
+
+# Table data
+data/
