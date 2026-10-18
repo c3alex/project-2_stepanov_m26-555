@@ -9,3 +9,5 @@ wheels/
 # Virtual environments
 .venv
  
+# Database metadata
+db_meta.json
