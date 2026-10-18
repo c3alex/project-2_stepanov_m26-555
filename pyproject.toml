@@ -1,7 +1,7 @@
 [project]
 name = "primitive-db"
 version = "0.1.0"
-description = "Add your description here"
+description = "Primitive database with table management"
 readme = "README.md"
 authors = [
     { name = "Stepanov Alexandr", email = "36171529+c3alex@users.noreply.github.com" }
@@ -12,7 +12,7 @@ dependencies = [
 ]
 
 [project.scripts]
-project = "primitive_db.main:main"
+database = "primitive_db.main:main"
 
 [build-system]
 requires = ["uv_build>=0.13.0,<0.14.0"]
