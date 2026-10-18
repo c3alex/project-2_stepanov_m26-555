@@ -1,7 +1,7 @@
 [project]
 name = "primitive-db"
-version = "0.1.0"
-description = "Primitive database with table management"
+version = "0.2.0"
+description = "Primitive database with table management and CRUD operations"
 readme = "README.md"
 authors = [
     { name = "Stepanov Alexandr", email = "36171529+c3alex@users.noreply.github.com" }

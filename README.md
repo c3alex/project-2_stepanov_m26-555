@@ -6,7 +6,7 @@
 
 ```bash
 uv build
-uv tool install dist/primitive_db-0.1.0-py3-none-any.whl
+uv tool install dist/primitive_db-0.2.0-py3-none-any.whl
 ```
 
 После установки база данных запускается командой:
@@ -66,3 +66,66 @@ database
 
 <!-- TODO: опубликовать запись (asciinema upload docs/tables_demo.cast) и заменить XXXXXX на её id -->
 [![asciicast](https://asciinema.org/a/XXXXXX.svg)](https://asciinema.org/a/XXXXXX)
+
+## CRUD-операции
+
+Данные каждой таблицы хранятся в отдельном файле `data/<имя_таблицы>.json`
+(например, `data/users.json`) и сохраняются после каждой успешной операции
+`insert`, `update` или `delete`. При удалении таблицы (`drop_table`) её файл
+с данными тоже удаляется.
+
+| Команда | Описание |
+|---|---|
+| `insert into <имя_таблицы> values (<значение1>, <значение2>, ...)` | создать запись |
+| `select from <имя_таблицы> where <столбец> = <значение>` | прочитать записи по условию |
+| `select from <имя_таблицы>` | прочитать все записи |
+| `update <имя_таблицы> set <столбец1> = <новое_значение1> where <столбец_условия> = <значение_условия>` | обновить запись |
+| `delete from <имя_таблицы> where <столбец> = <значение>` | удалить запись |
+| `info <имя_таблицы>` | вывести информацию о таблице |
+
+Правила записи значений:
+
+- строки всегда в кавычках: `"Sergei"` или `'Sergei'`;
+- целые числа без кавычек: `28`;
+- логические значения: `true` / `false`.
+
+Значение `ID` не передаётся в `insert`: оно генерируется автоматически
+(максимальный `ID` + 1). Все остальные поля обязательны, их типы проверяются
+по схеме таблицы. Изменять `ID` через `update` нельзя. В `set` можно указать
+несколько столбцов через запятую, в `where` несколько условий через `and`.
+
+### Пример использования
+
+```
+>>>Введите команду: insert into users values ("Sergei", 28, true)
+Запись с ID=1 успешно добавлена в таблицу "users".
+
+>>>Введите команду: select from users where age = 28
++----+--------+-----+-----------+
+| ID |  name  | age | is_active |
++----+--------+-----+-----------+
+| 1  | Sergei |  28 |    True   |
++----+--------+-----+-----------+
+
+>>>Введите команду: update users set age = 29 where name = "Sergei"
+Запись с ID=1 в таблице "users" успешно обновлена.
+
+>>>Введите команду: delete from users where ID = 1
+Запись с ID=1 успешно удалена из таблицы "users".
+
+>>>Введите команду: info users
+Таблица: users
+Столбцы: ID:int, name:str, age:int, is_active:bool
+Количество записей: 0
+
+>>>Введите команду: insert into users values ("Ivan", "25", true)
+Некорректное значение: '25' для столбца age:int. Попробуйте снова.
+```
+
+### Демонстрация
+
+Все CRUD-операции: [`docs/crud_demo.cast`](docs/crud_demo.cast)
+(посмотреть локально: `asciinema play docs/crud_demo.cast`).
+
+<!-- TODO: опубликовать запись (asciinema upload docs/crud_demo.cast) и заменить YYYYYY на её id -->
+[![asciicast](https://asciinema.org/a/YYYYYY.svg)](https://asciinema.org/a/YYYYYY)
